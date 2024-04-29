@@ -36,13 +36,14 @@ class Usuario {
         _nombre,
         _password
       ]);
-      print('Bienvenido $nombre!');
+      print('Usuario insertado correctamente');
     } catch (e) {
     } finally {
-     
+    
     }
   }
 
+ 
   all() async {
     var conn = await Database().conexion();
     try {
@@ -55,4 +56,23 @@ class Usuario {
      
     }
   }
+
+  loginUsuario() async {
+    var conn = await Database().conexion();
+    try {
+      var resultado = await conn.query('SELECT * FROM usuarios WHERE nombre = ?', [
+        this._nombre
+      ]);
+      Usuario usuario = Usuario.fromMap(resultado.first);
+      if (this._password == usuario.password) {
+        return usuario;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    
+  }
+}
 }

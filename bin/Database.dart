@@ -40,7 +40,10 @@ class Database{
 
   _crearTablaLibros(conn) async{
     await conn.query('''CREATE TABLE IF NOT EXISTS libros(
-
+        idlibro INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        titulo VARCHAR(50) NOT NULL UNIQUE,
+        genero VARCHAR(50) NOT NULL,
+        autor VARCHAR(50) NOT NULL
     )''');
     print('tabla de libros creada');
   }

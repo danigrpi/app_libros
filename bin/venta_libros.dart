@@ -1,6 +1,6 @@
 import 'dart:io';
 import "dart:convert";
-
+import 'Database.dart';
 import 'Usuario.dart';
 
 main()async{
@@ -32,10 +32,16 @@ main()async{
     
   }
 
-  login(){
-
-  }
-
+  login() async {
+    Usuario usuario = new Usuario();
+    stdout.writeln('Introduce tu nombre de usuario:');
+    usuario.nombre = stdin.readLineSync();
+    stdout.writeln('Introduce tu contraseña:');
+    usuario.password = stdin.readLineSync();
+    var resultado = await usuario.loginUsuario();
+    if (resultado == false) {
+      stdout.writeln('Tu nombre de usuario o contraseña son incorrectos');
+    }
   String _pedirNombre(){
     stdout.writeln("Escribe el nombre del libro a consultar");
     return stdin.readLineSync() ?? "error";
@@ -44,4 +50,7 @@ main()async{
   String _pedirGenero(){
     stdout.writeln("Escribe el nombre del genero a consultar");
     return stdin.readLineSync() ?? "error";
+  }
+
+  
   }
