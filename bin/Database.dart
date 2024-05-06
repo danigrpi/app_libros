@@ -6,7 +6,7 @@ class Database{
   final String _user = 'root';
 
   instalacion() async {
-    var setting = /*new*/ ConnectionSettings(
+    var setting = ConnectionSettings(
       host: this._host,
       port: this._port,
       user: this._user,
@@ -41,12 +41,15 @@ class Database{
   _crearTablaLibros(conn) async{
     await conn.query('''CREATE TABLE IF NOT EXISTS libros(
         idlibro INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        titulo VARCHAR(50) NOT NULL UNIQUE,
+        titulo VARCHAR(50) NOT NULL,
         genero VARCHAR(50) NOT NULL,
         autor VARCHAR(50) NOT NULL
     )''');
     print('tabla de libros creada');
   }
 
-  conexion() {}
+  Future<MySqlConnection> conexion() async {
+    var setting = /*new*/ ConnectionSettings(host: this._host, port: this._port, user: this._user, db: 'damdb');
+    return await MySqlConnection.connect(setting);
+  }
 }

@@ -39,9 +39,9 @@ class Usuario {
       print('Usuario insertado correctamente');
     } catch (e) {
     } finally {
-    
+      await conn.close();
     }
-  }
+    }
 
  
   all() async {
@@ -53,9 +53,10 @@ class Usuario {
     } catch (e) {
       print(e);
     } finally {
-     
+
+      await conn.close();
     }
-  }
+    }
 
   loginUsuario() async {
     var conn = await Database().conexion();
@@ -72,7 +73,8 @@ class Usuario {
     } catch (e) {
       print(e);
       return false;
-    
+    } finally {
+      await conn.close();
+    }
   }
-}
 }
