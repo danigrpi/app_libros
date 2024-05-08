@@ -1,10 +1,12 @@
 import 'package:mysql1/mysql1.dart';
 
 class Database{
+  //Propiedades
   final String _host = 'Localhost';
   final int _port = 3306;
   final String _user = 'root';
 
+  //Métodos
   instalacion() async {
     var setting = ConnectionSettings(
       host: this._host,
@@ -18,8 +20,6 @@ class Database{
       await _crearTablaLibros(conn);
     } catch (e) {
       print(e);
-    } finally {
-      
     }
   }
 
@@ -43,13 +43,14 @@ class Database{
         idlibro INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         titulo VARCHAR(50) NOT NULL,
         genero VARCHAR(50) NOT NULL,
-        autor VARCHAR(50) NOT NULL
+        autor VARCHAR(50) NOT NULL,
+        precio VARCHAR(5) NOT NULL
     )''');
-    print('tabla de libros creada');
+    print('Tabla de libros creada');
   }
 
   Future<MySqlConnection> conexion() async {
-    var setting = /*new*/ ConnectionSettings(host: this._host, port: this._port, user: this._user, db: 'damdb');
+    var setting = /*new*/ ConnectionSettings(host: this._host, port: this._port, user: this._user, db: 'tiendadb');
     return await MySqlConnection.connect(setting);
   }
 }

@@ -2,46 +2,31 @@ import 'Database.dart';
 import 'package:mysql1/mysql1.dart';
 
 class Usuario {
-  int? _idusuario;
-  String? _nombre;
-  String? _password;
+  //Popiedades
+  int? idusuario;
+  String? nombre;
+  String? password;
 
-  int? get idusuario {
-    return this._idusuario;
-  }
-
-  String? get nombre {
-    return this._nombre;
-  }
-
-  set nombre(String? texto) => this._nombre = texto;
-
-  String? get password {
-    return this._password;
-  }
-
-  set password(String? texto) => this._password = texto;
-
+  //Constructores
   Usuario();
   Usuario.fromMap(ResultRow map) {
-    this._idusuario = map['idusuario'];
-    this._nombre = map['nombre'];
-    this._password = map['password'];
+    this.idusuario = map['idusuario'];
+    this.nombre = map['nombre'];
+    this.password = map['password'];
   }
-
+  //Métodos 
   insertarUsuario() async {
     var conn = await Database().conexion();
     try {
-      await conn.query('INSERT INTO usuarios(nombre,password) VALUES (?,?)', [
-        _nombre,
-        _password
-      ]);
-      print('Usuario insertado correctamente');
+      await conn.query('INSERT INTO usuarios (nombre, password) VALUES (?,?)',
+          [nombre, password]);
+      print('Buenas $nombre, esperemos que le guste el género');
     } catch (e) {
+      print(e);
     } finally {
       await conn.close();
     }
-    }
+  }
 
  
   all() async {
@@ -53,7 +38,6 @@ class Usuario {
     } catch (e) {
       print(e);
     } finally {
-
       await conn.close();
     }
     }
@@ -61,15 +45,12 @@ class Usuario {
   loginUsuario() async {
     var conn = await Database().conexion();
     try {
-      var resultado = await conn.query('SELECT * FROM usuarios WHERE nombre = ?', [
-        this._nombre
-      ]);
+      var resultado = await conn.query('SELECT * FROM usuarios WHERE nombre = ?', [this.nombre]);
       Usuario usuario = Usuario.fromMap(resultado.first);
-      if (this._password == usuario.password) {
+      if (this.password == usuario.password) {
         return usuario;
-      } else {
+      } else
         return false;
-      }
     } catch (e) {
       print(e);
       return false;
